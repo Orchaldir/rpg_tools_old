@@ -24,4 +24,8 @@ impl Character {
     pub fn new(id: CharacterId) -> Self {
         Self { id }
     }
+
+    pub fn get_id(&self) -> CharacterId {
+        self.id
+    }
 }
