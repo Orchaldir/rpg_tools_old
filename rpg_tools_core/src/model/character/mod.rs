@@ -1,4 +1,4 @@
-mod manager;
+pub mod manager;
 
 /// The id of a [`Character`].
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
