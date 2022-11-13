@@ -1,3 +1,5 @@
+mod manager;
+
 /// The id of a [`Character`].
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub struct CharacterId(usize);
