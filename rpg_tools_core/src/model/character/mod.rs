@@ -1,4 +1,5 @@
 pub mod manager;
+pub mod species;
 
 /// The id of a [`Character`].
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
