@@ -15,6 +15,12 @@ impl SpeciesId {
     }
 }
 
+impl From<usize> for SpeciesId {
+    fn from(value: usize) -> Self {
+        SpeciesId::new(value)
+    }
+}
+
 /// The species of a [`character`](crate::model::character::Character).
 #[derive(Clone, Debug, PartialEq)]
 pub struct Species {
@@ -23,7 +29,8 @@ pub struct Species {
 }
 
 impl Species {
-    pub fn new<S: Into<String>>(id: SpeciesId, name: S) -> Result<Self> {
+    pub fn new<I: Into<SpeciesId>, S: Into<String>>(id: I, name: S) -> Result<Self> {
+        let id = id.into();
         let name = name.into();
         let name = Name::new(name).with_context(|| format!("Failed to create species {}", id.0))?;
 
@@ -41,6 +48,7 @@ pub mod tests {
 
     #[test]
     fn test_new() {
-        assert!(Species::new(SpeciesId::new(0), "Test").is_ok());
+        assert!(Species::new(0, "Test").is_ok());
+        assert!(Species::new(SpeciesId::new(2), "Test2").is_ok());
     }
 }
