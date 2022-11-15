@@ -87,4 +87,8 @@ impl Character {
     pub fn get_species(&self) -> SpeciesId {
         self.species
     }
+
+    pub fn get_gender(&self) -> Gender {
+        self.gender
+    }
 }

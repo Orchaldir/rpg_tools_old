@@ -3,6 +3,7 @@ use crate::model::name::Name;
 use anyhow::{Context, Result};
 
 pub mod gender;
+pub mod manager;
 
 /// The id of a [`Species`].
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
