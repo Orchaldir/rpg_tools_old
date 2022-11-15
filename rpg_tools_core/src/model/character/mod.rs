@@ -1,5 +1,6 @@
 use crate::model::character::species::SpeciesId;
 
+pub mod gender;
 pub mod manager;
 pub mod species;
 

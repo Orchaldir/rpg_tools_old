@@ -1,6 +1,8 @@
 use crate::model::name::Name;
 use anyhow::{Context, Result};
 
+pub mod gender;
+
 /// The id of a [`Species`].
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub struct SpeciesId(usize);
