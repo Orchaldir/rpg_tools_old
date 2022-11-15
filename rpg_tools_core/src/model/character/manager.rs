@@ -39,8 +39,8 @@ mod tests {
     fn test_create() {
         let mut manager = CharacterMgr::default();
 
-        let id0 = manager.create(|id| Ok(Character::new(id))).unwrap();
-        let id1 = manager.create(|id| Ok(Character::new(id))).unwrap();
+        let id0 = manager.create(|id| Ok(Character::new(id, 0))).unwrap();
+        let id1 = manager.create(|id| Ok(Character::new(id, 1))).unwrap();
 
         assert_ne!(id0, id1);
         assert_eq!(id0, manager.get(id0).unwrap().get_id());
