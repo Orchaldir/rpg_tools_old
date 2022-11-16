@@ -4,7 +4,8 @@ use crate::model::character::appearance::hair::Hair;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum HairOption {
     NoHair,
-    HasHair,
+    NormalHair,
+    SnakeHair,
 }
 
 impl HairOption {
@@ -12,18 +13,25 @@ impl HairOption {
     ///
     /// ```
     ///# use rpg_tools_core::model::character::species::appearance::hair::HairOption::*;
-    ///# use rpg_tools_core::model::character::appearance::hair::Hair;
+    ///# use rpg_tools_core::model::character::appearance::hair::{Hair, HairStyle};
     ///
     /// assert!(NoHair.is_valid(Hair::NoHair));
-    /// assert!(!NoHair.is_valid(Hair::HasHair));
+    /// assert!(!NoHair.is_valid(Hair::NormalHair{ style: HairStyle::Bun }));
+    /// assert!(!NoHair.is_valid(Hair::SnakeHair));
     ///
-    /// assert!(!HasHair.is_valid(Hair::NoHair));
-    /// assert!(HasHair.is_valid(Hair::HasHair));
+    /// assert!(!NormalHair.is_valid(Hair::NoHair));
+    /// assert!(NormalHair.is_valid(Hair::NormalHair{ style: HairStyle::Bun }));
+    /// assert!(!NormalHair.is_valid(Hair::SnakeHair));
+    ///
+    /// assert!(!SnakeHair.is_valid(Hair::NoHair));
+    /// assert!(!SnakeHair.is_valid(Hair::NormalHair{ style: HairStyle::Bun }));
+    /// assert!(SnakeHair.is_valid(Hair::SnakeHair));
     /// ```
     pub fn is_valid(&self, hair: Hair) -> bool {
         match self {
             HairOption::NoHair => hair == Hair::NoHair,
-            HairOption::HasHair => hair == Hair::HasHair,
+            HairOption::NormalHair => matches!(hair, Hair::NormalHair { .. }),
+            HairOption::SnakeHair => hair == Hair::SnakeHair,
         }
     }
 }
