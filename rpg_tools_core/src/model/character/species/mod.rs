@@ -2,6 +2,7 @@ use crate::model::character::species::gender::GenderOption;
 use crate::model::name::Name;
 use anyhow::{Context, Result};
 
+pub mod appearance;
 pub mod gender;
 pub mod manager;
 
