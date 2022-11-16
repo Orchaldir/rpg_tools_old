@@ -3,7 +3,7 @@
 pub enum Hair {
     NoHair,
     NormalHair { style: HairStyle },
-    SnakeHair,
+    SnakeHair { length: HairLength },
 }
 
 /// The hair style of a [`Character`](crate::model::character::Character).
