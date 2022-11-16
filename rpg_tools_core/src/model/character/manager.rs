@@ -34,13 +34,19 @@ impl CharacterMgr {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::model::character::gender::Gender;
+    use Gender::*;
 
     #[test]
     fn test_create() {
         let mut manager = CharacterMgr::default();
 
-        let id0 = manager.create(|id| Ok(Character::new(id))).unwrap();
-        let id1 = manager.create(|id| Ok(Character::new(id))).unwrap();
+        let id0 = manager
+            .create(|id| Ok(Character::simple(id, 0, Female)))
+            .unwrap();
+        let id1 = manager
+            .create(|id| Ok(Character::simple(id, 1, Male)))
+            .unwrap();
 
         assert_ne!(id0, id1);
         assert_eq!(id0, manager.get(id0).unwrap().get_id());
