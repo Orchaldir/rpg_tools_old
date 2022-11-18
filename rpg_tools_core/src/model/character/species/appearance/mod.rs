@@ -1,3 +1,4 @@
+use crate::model::character::appearance::Appearance;
 use crate::model::character::species::appearance::hair::HairOption;
 use crate::model::character::species::appearance::skin::SkinOption;
 
@@ -22,5 +23,16 @@ impl AppearanceOptions {
 
     pub fn skin(&self) -> &SkinOption {
         &self.skin
+    }
+
+    /// Is the [`Appearance`] valid for this option?
+    pub fn is_valid(&self, appearance: &Appearance) -> bool {
+        self.hair.is_valid(appearance.hair()) && self.skin.is_valid(appearance.skin())
+    }
+}
+
+impl Default for AppearanceOptions {
+    fn default() -> Self {
+        Self::new(HairOption::default(), SkinOption::default())
     }
 }

@@ -1,3 +1,4 @@
+use crate::model::character::species::appearance::AppearanceOptions;
 use crate::model::character::species::gender::GenderOption;
 use crate::model::name::Name;
 use anyhow::{Context, Result};
@@ -32,6 +33,7 @@ pub struct Species {
     id: SpeciesId,
     name: Name,
     gender_option: GenderOption,
+    appearance: AppearanceOptions,
 }
 
 impl Species {
@@ -39,6 +41,7 @@ impl Species {
         id: I,
         name: S,
         gender_option: GenderOption,
+        appearance: AppearanceOptions,
     ) -> Result<Self> {
         let id = id.into();
         let name = name.into();
@@ -48,6 +51,7 @@ impl Species {
             id,
             name,
             gender_option,
+            appearance,
         })
     }
 
@@ -62,6 +66,10 @@ impl Species {
     pub fn gender_option(&self) -> GenderOption {
         self.gender_option
     }
+
+    pub fn appearance(&self) -> &AppearanceOptions {
+        &self.appearance
+    }
 }
 
 #[cfg(test)]
@@ -71,7 +79,14 @@ pub mod tests {
 
     #[test]
     fn test_new() {
-        assert!(Species::new(0, "Test", TwoGenders).is_ok());
-        assert!(Species::new(SpeciesId::new(2), "Test2", NoGender).is_ok());
+        let appearance = AppearanceOptions::default();
+        assert!(Species::new(0, "Test", TwoGenders, appearance.clone()).is_ok());
+        assert!(Species::new(SpeciesId::new(2), "Test2", NoGender, appearance).is_ok());
+    }
+
+    #[test]
+    fn test_invalid_name() {
+        let appearance = AppearanceOptions::default();
+        assert!(Species::new(0, "", TwoGenders, appearance).is_err());
     }
 }

@@ -1,4 +1,5 @@
 use crate::model::character::appearance::hair::{Hair, HairColor};
+use anyhow::{bail, Result};
 use std::collections::HashSet;
 
 /// The available options of [`Hair`] for a [`Species`](crate::model::character::species::Species).
@@ -12,6 +13,16 @@ pub enum HairOption {
 }
 
 impl HairOption {
+    pub fn new_hair<const N: usize>(available_colors: [HairColor; N]) -> Result<Self> {
+        if available_colors.is_empty() {
+            bail!("HairOption::NormalHair needs at least 1 available color!")
+        }
+
+        Ok(Self::NormalHair {
+            available_colors: available_colors.into(),
+        })
+    }
+
     /// Is the [`Hair`] valid for this option?
     pub fn is_valid(&self, hair: Hair) -> bool {
         match self {
@@ -26,6 +37,12 @@ impl HairOption {
     }
 }
 
+impl Default for HairOption {
+    fn default() -> Self {
+        HairOption::NoHair
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -34,9 +51,7 @@ mod tests {
 
     #[test]
     fn test_valid_hair() {
-        let hair_option = HairOption::NormalHair {
-            available_colors: HashSet::from([HairColor::Brown]),
-        };
+        let hair_option = HairOption::new_hair([HairColor::Brown]).unwrap();
         let hair = Hair::normal_hair(HairColor::Brown, HairStyle::Bun);
         let snake = Hair::snake(Color::Green, HairLength::Shoulder);
 
@@ -56,9 +71,7 @@ mod tests {
     #[test]
     fn test_valid_hair_colors() {
         let blue = HairColor::Exotic(Color::Blue);
-        let option = HairOption::NormalHair {
-            available_colors: HashSet::from([HairColor::Blond, blue]),
-        };
+        let option = HairOption::new_hair([HairColor::Blond, blue]).unwrap();
 
         assert_skin_color(&option, HairColor::Black, false);
         assert_skin_color(&option, HairColor::Brown, false);
