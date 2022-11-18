@@ -1,6 +1,6 @@
 use crate::model::character::appearance::hair::Hair;
 
-/// Which [`Hair`]s are available for members of a [`Species`](crate::model::character::species::Species)?
+/// The available options of [`Hair`] for a [`Species`](crate::model::character::species::Species).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum HairOption {
     NoHair,

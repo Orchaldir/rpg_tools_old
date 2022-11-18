@@ -1,6 +1,7 @@
 use crate::model::character::species::appearance::hair::HairOption;
 
 pub mod hair;
+pub mod skin;
 
 /// How can a [`character`](crate::model::character::Character) of this [`species`](crate::model::character::species::Species) look like?
 #[derive(Clone, Debug, PartialEq)]
