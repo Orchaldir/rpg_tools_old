@@ -1,4 +1,5 @@
 use crate::model::character::species::appearance::hair::HairOption;
+use crate::model::character::species::appearance::skin::SkinOption;
 
 pub mod hair;
 pub mod skin;
@@ -7,14 +8,19 @@ pub mod skin;
 #[derive(Clone, Debug, PartialEq)]
 pub struct AppearanceOptions {
     hair: HairOption,
+    skin: SkinOption,
 }
 
 impl AppearanceOptions {
-    pub fn new(hair: HairOption) -> Self {
-        Self { hair }
+    pub fn new(hair: HairOption, skin: SkinOption) -> Self {
+        Self { hair, skin }
     }
 
-    pub fn get_hair(&self) -> HairOption {
-        self.hair
+    pub fn get_hair(&self) -> &HairOption {
+        &self.hair
+    }
+
+    pub fn get_skin(&self) -> &SkinOption {
+        &self.skin
     }
 }
