@@ -6,7 +6,7 @@ pub enum Skin {
 }
 
 /// The skin color of a [`Character`](crate::model::character::Character).
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum SkinColor {
     Light,
     Medium,
