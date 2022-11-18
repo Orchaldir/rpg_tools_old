@@ -30,6 +30,7 @@ impl HairOption {
 mod tests {
     use super::*;
     use crate::model::character::appearance::hair::{HairLength, HairStyle};
+    use crate::model::color::Color;
 
     #[test]
     fn test_valid_hair() {
@@ -37,7 +38,7 @@ mod tests {
             available_colors: HashSet::from([HairColor::Brown]),
         };
         let hair = Hair::normal_hair(HairColor::Brown, HairStyle::Bun);
-        let snake = Hair::snake(HairLength::Shoulder);
+        let snake = Hair::snake(Color::Green, HairLength::Shoulder);
 
         assert!(HairOption::NoHair.is_valid(Hair::NoHair));
         assert!(!HairOption::NoHair.is_valid(hair));
@@ -54,17 +55,19 @@ mod tests {
 
     #[test]
     fn test_valid_hair_colors() {
+        let blue = HairColor::Exotic(Color::Blue);
         let option = HairOption::NormalHair {
-            available_colors: HashSet::from([HairColor::Brown, HairColor::Blond]),
+            available_colors: HashSet::from([HairColor::Blond, blue]),
         };
 
         assert_skin_color(&option, HairColor::Black, false);
-        assert_skin_color(&option, HairColor::Brown, true);
+        assert_skin_color(&option, HairColor::Brown, false);
         assert_skin_color(&option, HairColor::Red, false);
         assert_skin_color(&option, HairColor::Orange, false);
         assert_skin_color(&option, HairColor::Blond, true);
         assert_skin_color(&option, HairColor::Grey, false);
         assert_skin_color(&option, HairColor::White, false);
+        assert_skin_color(&option, blue, true);
     }
 
     fn assert_skin_color(option: &HairOption, color: HairColor, result: bool) {

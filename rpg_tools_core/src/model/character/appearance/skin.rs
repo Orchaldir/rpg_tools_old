@@ -1,3 +1,5 @@
+use crate::model::color::Color;
+
 /// The skin of a [`Character`](crate::model::character::Character).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Skin {
@@ -14,4 +16,5 @@ pub enum SkinColor {
     Tan,
     Dark,
     VeryDark,
+    Exotic(Color),
 }

@@ -1,17 +1,20 @@
+use crate::model::color::Color;
+
 /// The hair of a [`Character`](crate::model::character::Character).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Hair {
     NoHair,
     NormalHair { color: HairColor, style: HairStyle },
-    SnakeHair { length: HairLength },
+    SnakeHair { color: Color, length: HairLength },
 }
 
 impl Hair {
     pub fn normal_hair(color: HairColor, style: HairStyle) -> Self {
         Self::NormalHair { color, style }
     }
-    pub fn snake(length: HairLength) -> Self {
-        Self::SnakeHair { length }
+
+    pub fn snake(color: Color, length: HairLength) -> Self {
+        Self::SnakeHair { color, length }
     }
 }
 
@@ -25,6 +28,7 @@ pub enum HairColor {
     Blond,
     Grey,
     White,
+    Exotic(Color),
 }
 
 /// The hair style of a [`Character`](crate::model::character::Character).
