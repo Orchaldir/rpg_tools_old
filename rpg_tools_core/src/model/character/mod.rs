@@ -106,6 +106,7 @@ impl Character {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::model::character::appearance::beard::Beard;
     use crate::model::character::appearance::hair::{Hair, HairColor, HairStyle};
     use crate::model::character::appearance::skin::Skin;
     use crate::model::character::gender::Gender;
@@ -137,7 +138,7 @@ mod tests {
 
     fn validate_appearance(species: &Species, hair_color: HairColor, result: bool) {
         let hair = Hair::normal_hair(hair_color, HairStyle::Bun);
-        let appearance = Appearance::new(hair, Skin::default());
+        let appearance = Appearance::new(Beard::default(), hair, Skin::default());
 
         assert_eq!(
             Character::new(11, &species, Male, appearance).is_ok(),

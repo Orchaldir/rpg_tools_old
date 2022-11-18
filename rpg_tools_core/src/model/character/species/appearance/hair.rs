@@ -24,12 +24,12 @@ impl HairOption {
     }
 
     /// Is the [`Hair`] valid for this option?
-    pub fn is_valid(&self, hair: Hair) -> bool {
+    pub fn is_valid(&self, hair: &Hair) -> bool {
         match self {
-            HairOption::NoHair => hair == Hair::NoHair,
+            HairOption::NoHair => *hair == Hair::NoHair,
             HairOption::NormalHair { available_colors } => match hair {
                 Hair::NoHair => false,
-                Hair::NormalHair { color, .. } => available_colors.contains(&color),
+                Hair::NormalHair { color, .. } => available_colors.contains(color),
                 Hair::SnakeHair { .. } => false,
             },
             HairOption::SnakeHair => matches!(hair, Hair::SnakeHair { .. }),
@@ -55,17 +55,17 @@ mod tests {
         let hair = Hair::normal_hair(HairColor::Brown, HairStyle::Bun);
         let snake = Hair::snake(Color::Green, HairLength::Shoulder);
 
-        assert!(HairOption::NoHair.is_valid(Hair::NoHair));
-        assert!(!HairOption::NoHair.is_valid(hair));
-        assert!(!HairOption::NoHair.is_valid(snake));
+        assert!(HairOption::NoHair.is_valid(&Hair::NoHair));
+        assert!(!HairOption::NoHair.is_valid(&hair));
+        assert!(!HairOption::NoHair.is_valid(&snake));
 
-        assert!(!hair_option.is_valid(Hair::NoHair));
-        assert!(hair_option.is_valid(hair));
-        assert!(!hair_option.is_valid(snake));
+        assert!(!hair_option.is_valid(&Hair::NoHair));
+        assert!(hair_option.is_valid(&hair));
+        assert!(!hair_option.is_valid(&snake));
 
-        assert!(!HairOption::SnakeHair.is_valid(Hair::NoHair));
-        assert!(!HairOption::SnakeHair.is_valid(hair));
-        assert!(HairOption::SnakeHair.is_valid(snake));
+        assert!(!HairOption::SnakeHair.is_valid(&Hair::NoHair));
+        assert!(!HairOption::SnakeHair.is_valid(&hair));
+        assert!(HairOption::SnakeHair.is_valid(&snake));
     }
 
     #[test]
@@ -85,6 +85,6 @@ mod tests {
 
     fn assert_skin_color(option: &HairOption, color: HairColor, result: bool) {
         let hair = Hair::normal_hair(color, HairStyle::Bun);
-        assert_eq!(option.is_valid(hair), result)
+        assert_eq!(option.is_valid(&hair), result)
     }
 }

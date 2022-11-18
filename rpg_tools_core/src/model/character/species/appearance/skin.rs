@@ -24,13 +24,13 @@ impl SkinOption {
     }
 
     /// Is the [`Skin`] valid for this option?
-    pub fn is_valid(&self, skin: Skin) -> bool {
+    pub fn is_valid(&self, skin: &Skin) -> bool {
         match self {
             SkinOption::HasSkin { available_colors } => match skin {
-                Skin::Skin(color) => available_colors.contains(&color),
+                Skin::Skin(color) => available_colors.contains(color),
                 Skin::Scales => false,
             },
-            SkinOption::HasScales => skin == Skin::Scales,
+            SkinOption::HasScales => *skin == Skin::Scales,
         }
     }
 }
@@ -50,9 +50,9 @@ mod tests {
         let skin_option = SkinOption::new_skin([SkinColor::Light]).unwrap();
         let skin = Skin::Skin(SkinColor::Medium);
 
-        assert!(!skin_option.is_valid(Skin::Scales));
-        assert!(!SkinOption::HasScales.is_valid(skin));
-        assert!(SkinOption::HasScales.is_valid(Skin::Scales));
+        assert!(!skin_option.is_valid(&Skin::Scales));
+        assert!(!SkinOption::HasScales.is_valid(&skin));
+        assert!(SkinOption::HasScales.is_valid(&Skin::Scales));
     }
 
     #[test]
@@ -68,6 +68,6 @@ mod tests {
     }
 
     fn assert_skin_color(option: &SkinOption, color: SkinColor, result: bool) {
-        assert_eq!(option.is_valid(Skin::Skin(color)), result)
+        assert_eq!(option.is_valid(&Skin::Skin(color)), result)
     }
 }
