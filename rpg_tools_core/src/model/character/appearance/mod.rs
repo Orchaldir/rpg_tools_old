@@ -5,7 +5,7 @@ pub mod hair;
 pub mod skin;
 
 /// How does a [`character`](crate::model::character::Character) look like?
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Appearance {
     hair: Hair,
     skin: Skin,
@@ -22,5 +22,11 @@ impl Appearance {
 
     pub fn get_skin(&self) -> Skin {
         self.skin
+    }
+}
+
+impl Default for Appearance {
+    fn default() -> Self {
+        Self::new(Hair::default(), Skin::default())
     }
 }

@@ -1,3 +1,4 @@
+use crate::model::character::appearance::Appearance;
 use crate::model::character::gender::Gender;
 use crate::model::character::species::{Species, SpeciesId};
 use anyhow::{bail, Result};
@@ -35,23 +36,17 @@ pub struct Character {
     id: CharacterId,
     species: SpeciesId,
     gender: Gender,
+    appearance: Appearance,
 }
 
 impl Character {
-    /// Creates a character, if valid:
-    ///
-    /// ```
-    ///# use rpg_tools_core::model::character::Character;
-    ///# use rpg_tools_core::model::character::gender::Gender::*;
-    ///# use rpg_tools_core::model::character::species::Species;
-    ///# use rpg_tools_core::model::character::species::gender::GenderOption::*;
-    /// let species = Species::new(32, "test", TwoGenders).unwrap();
-    ///
-    /// assert!(Character::new(11, &species, Female).is_ok());
-    /// assert!(Character::new(11, &species, Male).is_ok());
-    /// assert!(Character::new(11, &species, Genderless).is_err());
-    /// ```
-    pub fn new<I: Into<CharacterId>>(id: I, species: &Species, gender: Gender) -> Result<Self> {
+    /// Creates a character, if valid.
+    pub fn new<I: Into<CharacterId>>(
+        id: I,
+        species: &Species,
+        gender: Gender,
+        appearance: Appearance,
+    ) -> Result<Self> {
         let id = id.into();
         if !species.gender_option().is_valid(gender) {
             bail!(
@@ -66,6 +61,7 @@ impl Character {
             id,
             species: species.get_id(),
             gender,
+            appearance,
         })
     }
 
@@ -78,6 +74,7 @@ impl Character {
             id: id.into(),
             species: species.into(),
             gender,
+            appearance: Appearance::default(),
         }
     }
 
@@ -91,5 +88,27 @@ impl Character {
 
     pub fn get_gender(&self) -> Gender {
         self.gender
+    }
+
+    pub fn get_appearance(&self) -> &Appearance {
+        &self.appearance
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::model::character::gender::Gender;
+    use crate::model::character::species::gender::GenderOption::TwoGenders;
+    use Gender::*;
+
+    #[test]
+    fn test_validate_gender() {
+        let appearance = Appearance::default();
+        let species = Species::new(32, "test", TwoGenders).unwrap();
+
+        assert!(Character::new(11, &species, Female, appearance).is_ok());
+        assert!(Character::new(11, &species, Male, appearance).is_ok());
+        assert!(Character::new(11, &species, Genderless, appearance).is_err());
     }
 }

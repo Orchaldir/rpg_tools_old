@@ -18,6 +18,12 @@ impl Hair {
     }
 }
 
+impl Default for Hair {
+    fn default() -> Self {
+        Hair::NoHair
+    }
+}
+
 /// The hair color of a [`Character`](crate::model::character::Character).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum HairColor {

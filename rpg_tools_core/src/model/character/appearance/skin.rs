@@ -7,6 +7,12 @@ pub enum Skin {
     Scales,
 }
 
+impl Default for Skin {
+    fn default() -> Self {
+        Self::Skin(SkinColor::Exotic(Color::Aqua))
+    }
+}
+
 /// The skin color of a [`Character`](crate::model::character::Character).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum SkinColor {
