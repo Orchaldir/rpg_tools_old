@@ -16,11 +16,11 @@ impl Appearance {
         Self { hair, skin }
     }
 
-    pub fn get_hair(&self) -> Hair {
+    pub fn hair(&self) -> Hair {
         self.hair
     }
 
-    pub fn get_skin(&self) -> Skin {
+    pub fn skin(&self) -> Skin {
         self.skin
     }
 }

@@ -51,7 +51,7 @@ impl Species {
         })
     }
 
-    pub fn get_id(&self) -> SpeciesId {
+    pub fn id(&self) -> SpeciesId {
         self.id
     }
 

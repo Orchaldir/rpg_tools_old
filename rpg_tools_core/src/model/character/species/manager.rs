@@ -49,7 +49,7 @@ mod tests {
             .unwrap();
 
         assert_ne!(id0, id1);
-        assert_eq!(id0, manager.get(id0).unwrap().get_id());
-        assert_eq!(id1, manager.get(id1).unwrap().get_id());
+        assert_eq!(id0, manager.get(id0).unwrap().id());
+        assert_eq!(id1, manager.get(id1).unwrap().id());
     }
 }

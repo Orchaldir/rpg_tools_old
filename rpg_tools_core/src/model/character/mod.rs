@@ -59,7 +59,7 @@ impl Character {
 
         Ok(Self {
             id,
-            species: species.get_id(),
+            species: species.id(),
             gender,
             appearance,
         })
@@ -78,19 +78,19 @@ impl Character {
         }
     }
 
-    pub fn get_id(&self) -> CharacterId {
+    pub fn id(&self) -> CharacterId {
         self.id
     }
 
-    pub fn get_species(&self) -> SpeciesId {
+    pub fn species(&self) -> SpeciesId {
         self.species
     }
 
-    pub fn get_gender(&self) -> Gender {
+    pub fn gender(&self) -> Gender {
         self.gender
     }
 
-    pub fn get_appearance(&self) -> &Appearance {
+    pub fn appearance(&self) -> &Appearance {
         &self.appearance
     }
 }

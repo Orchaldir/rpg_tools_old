@@ -16,11 +16,11 @@ impl AppearanceOptions {
         Self { hair, skin }
     }
 
-    pub fn get_hair(&self) -> &HairOption {
+    pub fn hair(&self) -> &HairOption {
         &self.hair
     }
 
-    pub fn get_skin(&self) -> &SkinOption {
+    pub fn skin(&self) -> &SkinOption {
         &self.skin
     }
 }
