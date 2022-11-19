@@ -5,17 +5,17 @@ use std::collections::HashSet;
 
 /// The available options of [`Beard`] for a [`Species`](crate::model::character::species::Species).
 #[derive(Clone, Debug, PartialEq)]
-pub enum BeardOption {
+pub enum BeardOptions {
     NoBeard,
     Beard {
         available_colors: HashSet<HairColor>,
     },
 }
 
-impl BeardOption {
+impl BeardOptions {
     pub fn new_beard<const N: usize>(available_colors: [HairColor; N]) -> Result<Self> {
         if available_colors.is_empty() {
-            bail!("BeardOption::Beard needs at least 1 available color!")
+            bail!("BeardOptions::Beard needs at least 1 available color!")
         }
 
         Ok(Self::Beard {
@@ -26,8 +26,8 @@ impl BeardOption {
     /// Is the [`Beard`] valid for this option?
     pub fn is_valid(&self, beard: &Beard) -> bool {
         match self {
-            BeardOption::NoBeard => *beard == Beard::NoBeard,
-            BeardOption::Beard { available_colors } => match beard {
+            BeardOptions::NoBeard => *beard == Beard::NoBeard,
+            BeardOptions::Beard { available_colors } => match beard {
                 Beard::NoBeard => false,
                 Beard::Beard { color, .. } => available_colors.contains(color),
             },
@@ -35,9 +35,9 @@ impl BeardOption {
     }
 }
 
-impl Default for BeardOption {
+impl Default for BeardOptions {
     fn default() -> Self {
-        BeardOption::NoBeard
+        BeardOptions::NoBeard
     }
 }
 
@@ -49,11 +49,11 @@ mod tests {
 
     #[test]
     fn test_valid_hair() {
-        let beard_option = BeardOption::new_beard([HairColor::Brown]).unwrap();
+        let beard_option = BeardOptions::new_beard([HairColor::Brown]).unwrap();
         let beard = Beard::new_beard(HairColor::Brown, BeardStyle::Goatee);
 
-        assert!(BeardOption::NoBeard.is_valid(&Beard::NoBeard));
-        assert!(!BeardOption::NoBeard.is_valid(&beard));
+        assert!(BeardOptions::NoBeard.is_valid(&Beard::NoBeard));
+        assert!(!BeardOptions::NoBeard.is_valid(&beard));
 
         assert!(!beard_option.is_valid(&Beard::NoBeard));
         assert!(beard_option.is_valid(&beard));
@@ -62,7 +62,7 @@ mod tests {
     #[test]
     fn test_valid_hair_colors() {
         let blue = HairColor::Exotic(Color::Blue);
-        let option = BeardOption::new_beard([HairColor::Blond, blue]).unwrap();
+        let option = BeardOptions::new_beard([HairColor::Blond, blue]).unwrap();
 
         assert_skin_color(&option, HairColor::Black, false);
         assert_skin_color(&option, HairColor::Brown, false);
@@ -74,7 +74,7 @@ mod tests {
         assert_skin_color(&option, blue, true);
     }
 
-    fn assert_skin_color(option: &BeardOption, color: HairColor, result: bool) {
+    fn assert_skin_color(option: &BeardOptions, color: HairColor, result: bool) {
         let beard = Beard::new_beard(color, BeardStyle::Imperial);
         assert_eq!(option.is_valid(&beard), result)
     }

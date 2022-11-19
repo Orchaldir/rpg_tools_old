@@ -5,17 +5,17 @@ use std::collections::HashSet;
 
 /// The available options of [`Skin`] for a [`Species`](crate::model::character::species::Species).
 #[derive(Clone, Debug, PartialEq)]
-pub enum SkinOption {
+pub enum SkinOptions {
     HasSkin {
         available_colors: HashSet<SkinColor>,
     },
     HasScales,
 }
 
-impl SkinOption {
+impl SkinOptions {
     pub fn new_skin<const N: usize>(available_colors: [SkinColor; N]) -> Result<Self> {
         if available_colors.is_empty() {
-            bail!("SkinOption::HasSkin needs at least 1 available color!")
+            bail!("SkinOptions::HasSkin needs at least 1 available color!")
         }
 
         Ok(Self::HasSkin {
@@ -26,18 +26,18 @@ impl SkinOption {
     /// Is the [`Skin`] valid for this option?
     pub fn is_valid(&self, skin: &Skin) -> bool {
         match self {
-            SkinOption::HasSkin { available_colors } => match skin {
+            SkinOptions::HasSkin { available_colors } => match skin {
                 Skin::Skin(color) => available_colors.contains(color),
                 Skin::Scales => false,
             },
-            SkinOption::HasScales => *skin == Skin::Scales,
+            SkinOptions::HasScales => *skin == Skin::Scales,
         }
     }
 }
 
-impl Default for SkinOption {
+impl Default for SkinOptions {
     fn default() -> Self {
-        SkinOption::new_skin([SkinColor::Exotic(Color::Aqua)]).unwrap()
+        SkinOptions::new_skin([SkinColor::Exotic(Color::Aqua)]).unwrap()
     }
 }
 
@@ -47,17 +47,17 @@ mod tests {
 
     #[test]
     fn test_valid_skin() {
-        let skin_option = SkinOption::new_skin([SkinColor::Light]).unwrap();
+        let skin_option = SkinOptions::new_skin([SkinColor::Light]).unwrap();
         let skin = Skin::Skin(SkinColor::Medium);
 
         assert!(!skin_option.is_valid(&Skin::Scales));
-        assert!(!SkinOption::HasScales.is_valid(&skin));
-        assert!(SkinOption::HasScales.is_valid(&Skin::Scales));
+        assert!(!SkinOptions::HasScales.is_valid(&skin));
+        assert!(SkinOptions::HasScales.is_valid(&Skin::Scales));
     }
 
     #[test]
     fn test_valid_skin_colors() {
-        let option = SkinOption::new_skin([SkinColor::Warm, SkinColor::Tan]).unwrap();
+        let option = SkinOptions::new_skin([SkinColor::Warm, SkinColor::Tan]).unwrap();
 
         assert_skin_color(&option, SkinColor::Light, false);
         assert_skin_color(&option, SkinColor::Medium, false);
@@ -67,7 +67,7 @@ mod tests {
         assert_skin_color(&option, SkinColor::VeryDark, false);
     }
 
-    fn assert_skin_color(option: &SkinOption, color: SkinColor, result: bool) {
+    fn assert_skin_color(option: &SkinOptions, color: SkinColor, result: bool) {
         assert_eq!(option.is_valid(&Skin::Skin(color)), result)
     }
 }

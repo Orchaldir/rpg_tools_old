@@ -110,9 +110,9 @@ mod tests {
     use crate::model::character::appearance::hair::{Hair, HairColor, HairStyle};
     use crate::model::character::appearance::skin::Skin;
     use crate::model::character::gender::Gender;
-    use crate::model::character::species::appearance::beard::BeardOption;
-    use crate::model::character::species::appearance::hair::HairOption;
-    use crate::model::character::species::appearance::skin::SkinOption;
+    use crate::model::character::species::appearance::beard::BeardOptions;
+    use crate::model::character::species::appearance::hair::HairOptions;
+    use crate::model::character::species::appearance::skin::SkinOptions;
     use crate::model::character::species::appearance::AppearanceOptions;
     use crate::model::character::species::gender::GenderOption::TwoGenders;
     use Gender::*;
@@ -129,9 +129,9 @@ mod tests {
 
     #[test]
     fn test_validate_appearance() {
-        let hair = HairOption::new_hair([HairColor::Brown]).unwrap();
+        let hair = HairOptions::new_hair([HairColor::Brown]).unwrap();
         let appearance =
-            AppearanceOptions::new(BeardOption::default(), hair, SkinOption::default());
+            AppearanceOptions::new(BeardOptions::default(), hair, SkinOptions::default());
         let species = Species::new(32, "test", TwoGenders, appearance).unwrap();
 
         validate_appearance(&species, HairColor::Brown, true);
