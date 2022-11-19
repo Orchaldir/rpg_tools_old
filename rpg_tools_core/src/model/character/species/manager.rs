@@ -34,22 +34,24 @@ impl SpeciesMgr {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::model::character::species::appearance::AppearanceOptions;
     use crate::model::character::species::gender::GenderOption;
     use GenderOption::*;
 
     #[test]
     fn test_create() {
         let mut manager = SpeciesMgr::default();
+        let appearance = AppearanceOptions::default();
 
         let id0 = manager
-            .create(|id| Species::new(id, "t0", NoGender))
+            .create(|id| Species::new(id, "t0", NoGender, appearance.clone()))
             .unwrap();
         let id1 = manager
-            .create(|id| Species::new(id, "t1", TwoGenders))
+            .create(|id| Species::new(id, "t1", TwoGenders, appearance))
             .unwrap();
 
         assert_ne!(id0, id1);
-        assert_eq!(id0, manager.get(id0).unwrap().get_id());
-        assert_eq!(id1, manager.get(id1).unwrap().get_id());
+        assert_eq!(id0, manager.get(id0).unwrap().id());
+        assert_eq!(id1, manager.get(id1).unwrap().id());
     }
 }
